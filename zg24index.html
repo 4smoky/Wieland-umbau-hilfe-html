@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Wieland Umbau Hilfe ZG24</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #575757;
+            margin: 0;
+            padding: 0;
+        }
+
+        #banner {
+            background-color: #CD3700;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+         #buttons {
+        margin: 20px;
+        display: flex;
+        flex-wrap: wrap; /* Die Buttons werden in mehreren Reihen gewickelt */
+        justify-content: center; /* Die Buttons werden in der Mitte ausgerichtet */
+        gap: 10px; /* Abstand zwischen den Buttons */
+    }
+
+    button {
+            background-color: #28A745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        flex: 1; /* Die Buttons nehmen gleichmäßig den verfügbaren Platz ein */
+        max-width: calc(50% - 5px); /* Die Breite der Buttons auf 50% des Containers mit Abstand von 10px */
+    }
+
+        #output {
+    margin: 60px;
+    background-color: white;
+    padding: 60px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    height: 400px; /* Zum Beispiel eine feste Höhe von 300px */
+}
+
+    </style>
+</head>
+<body>
+    <div id="banner">
+        <h1>Umbau Hilfe für ZG 24</h1>
+    </div>
+   <div id="buttons" style="text-align: center;">
+    <button onclick="showContent(0)">Durchmesser 13 bis 16,5</button>
+    <button onclick="showContent(1)">Durchmesser 17 bis 22</button>
+    <button onclick="showContent(2)">SW 1 info</button>
+    <button onclick="showContent(3)">Sägeblattschmierung</button>
+    <button onclick="showContent(4)">Alle verfügbaren Hämmerbacken</button>
+    <button onclick="showContent(5)">Sonstige Infos</button>
+    <button onclick="location.href='index.html';">Anlagenauswahl</button>
+</div>
+
+    <div id="output">
+        <!-- Hier wird der Inhalt der CSV-Datei angezeigt -->
+    </div>
+   <script>
+    function showContent(index) {
+        fetch('zg24data.csv')
+            .then(response => response.text())
+            .then(data => {
+                const lines = data.split('\n');
+                const columns = lines[index].split('","'); // Hier verwenden wir '","' als Trennzeichen
+                const content = columns.map(column => column.replace(/"/g, '')).join('<br>'); // Entfernen der Anführungszeichen und Verwendung von <br> für Zeilenumbrüche
+                const outputElement = document.getElementById('output');
+                outputElement.innerHTML = '<p>' + content + '</p>'; // Jeder Wert in einem separaten Absatz
+            });
+    }
+</script>
+
+</body>
+</html>

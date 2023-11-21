@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Wieland Umbau Hilfe ZG23</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #575757;
+            margin: 0;
+            padding: 0;
+        }
+
+        #banner {
+            background-color: #CD3700;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #buttons {
+            margin: 20px;
+        }
+
+        button {
+            background-color: #28A745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        #output {
+    margin: 60px;
+    background-color: white;
+    padding: 60px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    height: 400px; /* Zum Beispiel eine feste Höhe von 300px */
+}
+
+    </style>
+</head>
+<body>
+    <div id="banner">
+        <h1>Umbau Hilfe für ZG 23</h1>
+    </div>
+    <div id="buttons" style="text-align: center;">
+        <button onclick="showContent(0)">Durchmesser 9 bis 11,5</button>
+        <button onclick="showContent(1)">Durchmeser 12 bis 13,5</button>
+        <button onclick="showContent(2)">SW 1 info</button>
+        <button onclick="showContent(3)">Sägeblattschmierung</button>
+        <a href="index.html"><button>Anlagenauswahl</button></a>
+    </div>
+    <div id="output">
+        <!-- Hier wird der Inhalt der CSV-Datei angezeigt -->
+    </div>
+   <script>
+    function showContent(index) {
+        fetch('zg23data.csv')
+            .then(response => response.text())
+            .then(data => {
+                const lines = data.split('\n');
+                const columns = lines[index].split('","'); // Hier verwenden wir '","' als Trennzeichen
+                const content = columns.map(column => column.replace(/"/g, '')).join('<br>'); // Entfernen der Anführungszeichen und Verwendung von <br> für Zeilenumbrüche
+                const outputElement = document.getElementById('output');
+                outputElement.innerHTML = '<p>' + content + '</p>'; // Jeder Wert in einem separaten Absatz
+            });
+    }
+</script>
+
+</body>
+</html>
